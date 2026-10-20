@@ -1,0 +1,253 @@
+{
+  "repository": "ecommerce_service",
+  "language": "python",
+  "version": "1.0",
+  "plans": [
+    {
+      "plan_id": "plan_pricing_constant",
+      "target": "core/pricing_engine.py",
+      "smell": "MagicNumber",
+      "description": "Extract geometry packaging float literal 3.14159 into constant PI_VALUE",
+      "steps": [
+        {
+          "step_id": 1,
+          "refactoring": "Introduce Constant",
+          "target": {
+            "file": "core/pricing_engine.py",
+            "method": "calculate_cylinder_volume",
+            "lines": [6, 6]
+          },
+          "parameters": {
+            "source_file": "core/pricing_engine.py",
+            "constant_name": "PI_VALUE",
+            "literal_value": 3.14159,
+            "source_line": 6
+          }
+        }
+      ]
+    },
+    {
+      "plan_id": "plan_discount_threshold",
+      "target": "core/discount_calculator.py",
+      "smell": "MagicNumber",
+      "description": "Extract VIP discount threshold literal 1000 into constant MIN_DISCOUNT_THRESHOLD",
+      "steps": [
+        {
+          "step_id": 1,
+          "refactoring": "Introduce Constant",
+          "target": {
+            "file": "core/discount_calculator.py",
+            "method": "apply_voucher_discount",
+            "lines": [6, 6]
+          },
+          "parameters": {
+            "source_file": "core/discount_calculator.py",
+            "constant_name": "MIN_DISCOUNT_THRESHOLD",
+            "literal_value": 1000,
+            "source_line": 6
+          }
+        }
+      ]
+    },
+    {
+      "plan_id": "plan_sales_tax_constant",
+      "target": "core/tax_service.py",
+      "smell": "MagicNumber",
+      "description": "Extract sales tax percentage literal 0.15 into constant DEFAULT_TAX_RATE",
+      "steps": [
+        {
+          "step_id": 1,
+          "refactoring": "Introduce Constant",
+          "target": {
+            "file": "core/tax_service.py",
+            "method": "calculate_sales_tax",
+            "lines": [8, 8]
+          },
+          "parameters": {
+            "source_file": "core/tax_service.py",
+            "constant_name": "DEFAULT_TAX_RATE",
+            "literal_value": 0.15,
+            "source_line": 8
+          }
+        }
+      ]
+    },
+    {
+      "plan_id": "plan_order_batch_extract",
+      "target": "services/order_processor.py",
+      "smell": "LongMethod",
+      "description": "Extract order processing loop computation into calculate_order_totals helper",
+      "steps": [
+        {
+          "step_id": 1,
+          "refactoring": "Extract Method",
+          "target": {
+            "file": "services/order_processor.py",
+            "method": "process_order_batch",
+            "lines": [15, 20]
+          },
+          "parameters": {
+            "source_file": "services/order_processor.py",
+            "target_method": "process_order_batch",
+            "new_method_name": "calculate_order_totals",
+            "source_lines": [15, 20]
+          }
+        }
+      ]
+    },
+    {
+      "plan_id": "plan_shipping_conditional",
+      "target": "services/shipping_router.py",
+      "smell": "SwitchStatements",
+      "description": "Replace shipping carrier type conditional with polymorphic dispatch",
+      "steps": [
+        {
+          "step_id": 1,
+          "refactoring": "Replace Conditional with Polymorphism",
+          "target": {
+            "file": "services/shipping_router.py",
+            "method": "calculate_shipping"
+          },
+          "parameters": {
+            "source_file": "services/shipping_router.py",
+            "method": "calculate_shipping"
+          }
+        }
+      ]
+    },
+    {
+      "plan_id": "plan_account_param_object",
+      "target": "services/account_manager.py",
+      "smell": "TooManyParameters",
+      "description": "Introduce RegistrationData parameter object for register_user",
+      "steps": [
+        {
+          "step_id": 1,
+          "refactoring": "Introduce Parameter Object",
+          "target": {
+            "file": "services/account_manager.py",
+            "method": "register_user"
+          },
+          "parameters": {
+            "source_file": "services/account_manager.py",
+            "method": "register_user",
+            "parameter_object_name": "RegistrationData"
+          }
+        }
+      ]
+    },
+    {
+      "plan_id": "plan_audit_dead_code",
+      "target": "services/payment_auditor.py",
+      "smell": "UnreachableCode",
+      "description": "Remove unreachable audit statement following unconditional return",
+      "steps": [
+        {
+          "step_id": 1,
+          "refactoring": "Remove Dead Code",
+          "target": {
+            "file": "services/payment_auditor.py",
+            "method": "process_transaction",
+            "lines": [11, 11]
+          },
+          "parameters": {
+            "source_file": "services/payment_auditor.py",
+            "method": "process_transaction",
+            "source_line": 11
+          }
+        }
+      ]
+    },
+    {
+      "plan_id": "plan_port_bare_except",
+      "target": "utils/network_client.py",
+      "smell": "BareExcept",
+      "description": "Replace bare except clause with specific ValueError for port parsing",
+      "steps": [
+        {
+          "step_id": 1,
+          "refactoring": "Replace Bare Except with Specific Exception",
+          "target": {
+            "file": "utils/network_client.py",
+            "method": "parse_port",
+            "lines": [10, 10]
+          },
+          "parameters": {
+            "source_file": "utils/network_client.py",
+            "method": "parse_port",
+            "source_line": 10
+          }
+        }
+      ]
+    },
+    {
+      "plan_id": "plan_config_bare_except",
+      "target": "utils/config_loader.py",
+      "smell": "BareExcept",
+      "description": "Replace bare except clause with specific OSError for file I/O",
+      "steps": [
+        {
+          "step_id": 1,
+          "refactoring": "Replace Bare Except with Specific Exception",
+          "target": {
+            "file": "utils/config_loader.py",
+            "method": "read_config_file",
+            "lines": [10, 10]
+          },
+          "parameters": {
+            "source_file": "utils/config_loader.py",
+            "method": "read_config_file",
+            "source_line": 10
+          }
+        }
+      ]
+    },
+    {
+      "plan_id": "plan_formatter_rename",
+      "target": "utils/data_formatter.py",
+      "smell": "CrypticMethodName",
+      "description": "Rename cryptic DataFormatter.calc_dat to calculate_formatted_data",
+      "steps": [
+        {
+          "step_id": 1,
+          "refactoring": "Rename Method",
+          "target": {
+            "file": "utils/data_formatter.py",
+            "class": "DataFormatter",
+            "method": "calc_dat"
+          },
+          "parameters": {
+            "source_file": "utils/data_formatter.py",
+            "source_class": "DataFormatter",
+            "method": "calc_dat",
+            "new_name": "calculate_formatted_data"
+          }
+        }
+      ]
+    },
+    {
+      "plan_id": "plan_customer_hide_delegate",
+      "target": "models/customer.py",
+      "smell": "MessageChains",
+      "description": "Hide Delegate: add get_city() forwarder on Customer to eliminate Law of Demeter violation",
+      "steps": [
+        {
+          "step_id": 1,
+          "refactoring": "Hide Delegate",
+          "target": {
+            "file": "models/customer.py",
+            "class": "Customer",
+            "method": "get_city_label"
+          },
+          "parameters": {
+            "source_file": "models/customer.py",
+            "source_class": "Customer",
+            "delegate_member": "address",
+            "delegated_member": "city",
+            "new_method_name": "get_city"
+          }
+        }
+      ]
+    }
+  ]
+}
